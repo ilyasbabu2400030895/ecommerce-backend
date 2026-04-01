@@ -27,8 +27,25 @@ public class AuthController {
     }
 
     // Login
-    @PostMapping("/login")
-    public User login(@RequestBody User user) {
-        return userService.login(user.getEmail(), user.getPassword());
+    @Autowired
+private UserRepository userRepository;
+
+@Autowired
+private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
+public User login(String email, String password) {
+
+    User user = userRepository.findByEmail(email);
+
+    if (user == null) {
+        throw new RuntimeException("User not found");
     }
+
+    // 🔥 MAIN FIX
+    if (!passwordEncoder.matches(password, user.getPassword())) {
+        throw new RuntimeException("Invalid login credentials");
+    }
+
+    return user;
+}
 }
