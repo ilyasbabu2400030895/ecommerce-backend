@@ -48,6 +48,6 @@ public class SecurityConfig {
     // 🔥 ADD THIS (IMPORTANT FIX)
     @Bean
     public org.springframework.security.crypto.password.PasswordEncoder passwordEncoder() {
-        return org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance();
-    }
+    return org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance();
+}
 }
