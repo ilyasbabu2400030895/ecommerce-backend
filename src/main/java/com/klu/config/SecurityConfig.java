@@ -15,7 +15,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            .cors(cors -> {}) // ✅ ADD THIS
+            .cors(cors -> {})
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .anyRequest().permitAll()
@@ -24,7 +24,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ✅ ADD THIS METHOD (MAIN FIX)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
@@ -44,5 +43,11 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
 
         return source;
+    }
+
+    // 🔥 ADD THIS (IMPORTANT FIX)
+    @Bean
+    public org.springframework.security.crypto.password.PasswordEncoder passwordEncoder() {
+        return org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance();
     }
 }
